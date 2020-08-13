@@ -1,0 +1,25 @@
+﻿<Window x:Class="ImageChatClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageChatClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Closing="Disconnect">
+    <StackPanel>
+        <Image Name="displayImage" Width="100" HorizontalAlignment="Left" Source="C:\Users\Britta\Desktop\Laptop C Drive\Downloads\1528921447030.jpg"></Image>
+        <StackPanel Name="signInInterface">
+            <TextBox Name="signInUserName">
+                Dummy
+            </TextBox>
+            <Button Name="signInButton" Click="ConnectToServer">Sign In</Button>
+        </StackPanel>
+        <StackPanel Name="chatInterface" Visibility="Collapsed">
+            <TextBlock Name="chatNameDisplay"></TextBlock>
+            <TextBlock Name="chatMessageLog"></TextBlock>
+            <TextBox Name="chatMessageEntry"></TextBox>
+            <Button Name="chatSendMessage" Click="SendMessage">Send</Button>
+        </StackPanel>
+         
+    </StackPanel>
+</Window>

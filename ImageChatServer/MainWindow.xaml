@@ -1,0 +1,16 @@
+﻿<Window x:Class="ImageChatServer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageChatServer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" >
+    <StackPanel>
+        <Image Name="displayImage" Width="150"></Image>
+        <Label Name="status"></Label>
+        <TextBlock Name="log" Background="DarkSlateGray" Foreground="White"></TextBlock>
+        <Label Name="buttonClicks">!</Label>
+        <Button Click="IncrementClicks" Width="100">Test UI RESPONSE</Button>
+    </StackPanel>
+</Window>
