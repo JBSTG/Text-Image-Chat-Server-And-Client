@@ -28,7 +28,7 @@ namespace ImageChatServer
 
         public void TcpListener() {
         
-        } 
+        }
 
         public ConnectedClient(TcpListener server,List<Message> pmq) {
             parentMessageQueue = pmq;
@@ -36,13 +36,8 @@ namespace ImageChatServer
             messages = new List<string>();
             if (connection.Connected) {
                 Message m = new Message();
-                m.sendingUser = "SERVER";
-                m.textContent = "YOU HAVE CONNECTED SUCCESSFULLY.";
+                m.isConnectingMessage = true;
                 Message.SendMessage(connection,m);
-            }
-            if (this.connection.GetStream().DataAvailable)
-            {
-                this.username = Message.ReceiveMessage(connection).sendingUser;
             }
             Listen();
             KeepAlive();
@@ -83,23 +78,28 @@ namespace ImageChatServer
         async void Listen() {
             while (connection.Connected)
             {
+                await Task.Delay(1);
                 if (connection.GetStream().DataAvailable)
                 {
-                    Message m = Message.ReceiveMessage(connection);
-                    //Disconnects and timeouts are handled here, as opposed to the server's loop.
+                    Message m = await Message.ReceiveMessage(connection);
+                    //Special messages are handled here, as opposed to the server's loop.
+                    if (m.isConnectingMessage) {
+                        username = m.sendingUser;
+                        Message sec = Message.SetupCompleteMessage();
+                        Message.SendMessage(connection,sec);
+                    }
                     if (m.isKeepAliveMessage)
                     {
                         keepAliveWarned = false;
                         m.textContent = " is alive.";
                     }
                     if (m.isDisconnectMessage) {
-                        //We don't call NotifyDisconnect since we don't need two messages.
+                        //We don't call NotifyDisconnect, it will be added to the queue anyway.
                         isAlive = false;
                         connection.Close();
                     }
                     parentMessageQueue.Add(m);
                 }
-                await Task.Delay(1);
             }
         }
     }

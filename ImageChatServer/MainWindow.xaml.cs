@@ -60,7 +60,7 @@ namespace ImageChatServer
                     if (m.isDisconnectMessage) {
                         users.RemoveAll(u=>u.isAlive==false);
                     }
-                    if (m.isKeepAliveMessage) {
+                    if (m.isKeepAliveMessage||m.isConnectingMessage) {
                         continue;
                     }
                     BroadCastToUsers(m);

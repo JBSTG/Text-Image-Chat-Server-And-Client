@@ -16,9 +16,10 @@ namespace MessageLibrary
     [Serializable]
     public class Message
     {
-        public static Message ReceiveMessage(TcpClient connection) {
-            NetworkStream ns = connection.GetStream();
+        public async static Task<Message> ReceiveMessage(TcpClient connection) {
+            await Task.Delay(1);
             IFormatter ifo = new BinaryFormatter();
+            NetworkStream ns = connection.GetStream();
             Message m = (Message)ifo.Deserialize(ns);
             return m;
         }
@@ -37,11 +38,19 @@ namespace MessageLibrary
             return dc;
         }
 
+        public static Message SetupCompleteMessage() {
+            Message sec = new Message();
+            sec.textContent = "You are now connected.";
+            sec.sendingUser = "SERVER";
+            sec.isSetupCompleteMessage = true;
+            return sec;
+        }
         public bool isUserMessage;
         public bool isServerMessage;
         public bool isConnectingMessage;
         public bool isKeepAliveMessage;
         public bool isDisconnectMessage;
+        public bool isSetupCompleteMessage;
         public string sendingUser;
         public string textContent;
         public Bitmap imageContent = null;

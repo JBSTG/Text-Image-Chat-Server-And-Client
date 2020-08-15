@@ -5,18 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageChatClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closing="Disconnect">
+        Title="MainWindow" Height="600" Width="800" Closing="Disconnect">
     <StackPanel>
-        <Image Name="displayImage" Width="100" HorizontalAlignment="Left" Source="C:\Users\Britta\Desktop\Laptop C Drive\Downloads\1528921447030.jpg"></Image>
-        <StackPanel Name="signInInterface">
-            <TextBox Name="signInUserName">
-                Dummy
-            </TextBox>
-            <Button Name="signInButton" Click="ConnectToServer">Sign In</Button>
-        </StackPanel>
+        <Grid Name="signInInterface" Height="430">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <TextBox Margin="10" Name="signInUserName" Width="150" Height="20" HorizontalAlignment="Center">
+                    Dummy
+                </TextBox>
+                <Button Margin="10" Height="30" Width="100" Name="signInButton" Click="ConnectToServer">Sign In</Button>
+            </StackPanel>
+        </Grid>
         <StackPanel Name="chatInterface" Visibility="Collapsed">
             <TextBlock Name="chatNameDisplay"></TextBlock>
-            <TextBlock Name="chatMessageLog"></TextBlock>
+            <ScrollViewer Height="300" VerticalScrollBarVisibility="Visible">
+                <StackPanel Name="chatMessageLog"  Orientation="Vertical" CanVerticallyScroll="True"></StackPanel>
+            </ScrollViewer>
+            <Image Name="chatDisplayImage" Height="100" Width="100" Stretch="UniformToFill"  HorizontalAlignment="Left" ></Image>
+            <Button Name="chatImageAttachButton" Width="100" HorizontalAlignment="Left" Click="AttachImage">Attach Image</Button>
             <TextBox Name="chatMessageEntry"></TextBox>
             <Button Name="chatSendMessage" Click="SendMessage">Send</Button>
         </StackPanel>
