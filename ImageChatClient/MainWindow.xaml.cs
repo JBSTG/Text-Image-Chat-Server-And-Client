@@ -53,7 +53,7 @@ namespace ImageChatClient
                             Message response = new Message();
                             response.sendingUser = username;
                             response.isConnectingMessage = true;
-                            Message.SendMessage(client, response);
+                            await Message.SendMessage(client, response);
                         }
 
                         if (m.isSetupCompleteMessage)
@@ -67,7 +67,7 @@ namespace ImageChatClient
                             Message ka = new Message();
                             ka.isKeepAliveMessage = true;
                             ka.sendingUser = signInUserName.Text;
-                            Message.SendMessage(client, ka);
+                            await Task.Run(()=>Message.SendMessage(client, ka));
                             continue;
                         }
                         if (m.imageContent != null)
@@ -107,30 +107,40 @@ namespace ImageChatClient
         }
 
         public void SendMessage(Object sender, RoutedEventArgs evt) {
-            if (client.Connected&&setupComplete) {
-                Message m = new Message();
-                m.isUserMessage = true;
-                m.textContent = chatMessageEntry.Text;
+            (sender as Button).Dispatcher.BeginInvoke(DispatcherPriority.Normal,new Action(()=> {
+                if (client.Connected && setupComplete)
+                {
+                    Message m = new Message();
+                    m.isUserMessage = true;
+                    m.textContent = chatMessageEntry.Text;
 
-                if (chatDisplayImage.Source!=null) {
-                    Bitmap bmp = new Bitmap(chatDisplayImage.Source.ToString().Substring(8));
-                    m.imageContent = bmp;
+                    if (chatDisplayImage.Source != null)
+                    {
+                        Bitmap bmp = new Bitmap(chatDisplayImage.Source.ToString().Substring(8));
+                        m.imageContent = bmp;
+                    }
+
+                    m.sendingUser = signInUserName.Text;
+                    NetworkStream ns = client.GetStream();
+                    IFormatter ifo = new BinaryFormatter();
+                    ifo.Serialize(ns, m);
+
+                    chatDisplayImage.Source = null;
+                    chatMessageEntry.Text = "";
                 }
-
-                m.sendingUser = signInUserName.Text;
-                NetworkStream ns = client.GetStream();
-                IFormatter ifo = new BinaryFormatter();
-                ifo.Serialize(ns, m);
-
-                chatDisplayImage.Source = null;
-                chatMessageEntry.Text = "";
-            }
+            }));
         }
 
-        public void Disconnect(Object sender,CancelEventArgs e) {
+        public async void Disconnect(Object sender,CancelEventArgs e) {
             Message dc = Message.DisconnectMessage(username);
-            Message.SendMessage(client,dc);
-            client.Close();
+            try {
+                await Task.Run(()=>Message.SendMessage(client, dc));
+                client.Close();
+            }
+            catch (Exception ex) {
+                client.Close();
+            }
+
         }
 
         public void AttachImage(Object sender, RoutedEventArgs e) {

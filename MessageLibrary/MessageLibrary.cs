@@ -24,7 +24,8 @@ namespace MessageLibrary
             return m;
         }
 
-        public static void SendMessage(TcpClient connection, Message m) {
+        public async static Task SendMessage(TcpClient connection, Message m) {
+            await Task.Delay(1);
             NetworkStream ns = connection.GetStream();
             IFormatter ifo = new BinaryFormatter();
             ifo.Serialize(ns, m);

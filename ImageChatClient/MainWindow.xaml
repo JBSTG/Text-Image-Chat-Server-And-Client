@@ -33,7 +33,7 @@
             <Image Name="chatDisplayImage" Height="100" Width="100" Stretch="UniformToFill"  HorizontalAlignment="Left" ></Image>
             <Button Name="chatImageAttachButton" Width="100" HorizontalAlignment="Left" Click="AttachImage">Attach Image</Button>
             <TextBox Name="chatMessageEntry"></TextBox>
-            <Button Name="chatSendMessage" Click="SendMessage">Send</Button>
+            <Button Name="chatSendMessage" Click="SendMessage" >Send</Button>
         </StackPanel>
          
     </StackPanel>

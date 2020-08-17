@@ -28,7 +28,6 @@ namespace ImageChatServer
     {
 
         TcpListener server;
-        TcpClient newConnection;
         List<ConnectedClient> users;
         ConnectedClient user;
         List<Message> messageQueue;
@@ -87,12 +86,12 @@ namespace ImageChatServer
                   new Action(() => log.Text += user.username + " Connected\n"));
         }
 
-        public void BroadCastToUsers(Message m) {
+        public async void BroadCastToUsers(Message m) {
             for (int i = 0; i < users.Count; i++)
             {
                 if (users[i].username != m.sendingUser)
                 {
-                    Message.SendMessage(users[i].connection, m);
+                    await Task.Run(()=>Message.SendMessage(users[i].connection, m));
                 }
             }
         }
