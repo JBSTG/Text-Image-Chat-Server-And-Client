@@ -91,7 +91,7 @@ namespace ImageChatServer
             {
                 if (users[i].username != m.sendingUser)
                 {
-                    await Task.Run(()=>Message.SendMessage(users[i].connection, m));
+                    await Task.Run(() => Message.SendMessage(users[i].connection, m));
                 }
             }
         }

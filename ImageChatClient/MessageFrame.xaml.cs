@@ -18,11 +18,23 @@ namespace ImageChatClient
     /// </summary>
     public partial class MessageFrame : UserControl
     {
-        public MessageFrame(string u,string c)
+        public MessageFrame(string u,string c, bool isOtherSender)
         {
             InitializeComponent();
-            messageUser.Content = u+":";
-            messageBody.Content = c;
+            if (isOtherSender)
+            {
+                message.Background = Brushes.Orange;
+                messageBorder.BorderBrush = Brushes.Orange;
+                this.HorizontalAlignment = HorizontalAlignment.Right;
+            }
+            else {
+                message.Background = Brushes.SkyBlue;
+                messageBorder.BorderBrush = Brushes.SkyBlue;
+                this.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+            message.Foreground = Brushes.White;
+            message.Text = u + ": " + c;
+
         }
     }
 }

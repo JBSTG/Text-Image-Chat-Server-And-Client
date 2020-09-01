@@ -53,14 +53,15 @@ namespace ImageChatServer
                     ka.isKeepAliveMessage = true;
                     try
                     {
-                        Message.SendMessage(connection, ka);
+                        await Message.SendMessage(connection, ka);
                     }
                     catch (System.IO.IOException e)
                     {
+                        //If we can't send the message, the user has disconnected.
                         NotifyDisconnect();
                     }
                 }
-                //If we have been issued a warning, we have timed out.
+                //If we have been issued a warning, the user timed out.
                 else if (keepAliveWarned)
                 {
                     NotifyDisconnect();

@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageChatClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" Closing="Disconnect">
+        Title="MainWindow" Height="600" Width="800" Closing="Disconnect" ResizeMode="NoResize">
+    
     <StackPanel>
-        <Grid Name="signInInterface" Height="430">
+        <Grid Name="signInInterface" Background="DarkSlateGray"  Height="600" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -19,22 +20,35 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Row="1" Grid.Column="1">
-                <TextBox Margin="10" Name="signInUserName" Width="150" Height="20" HorizontalAlignment="Center">
+                <TextBox Margin="10" Name="signInUserName" Width="150" Height="30" FontSize="20" HorizontalAlignment="Center">
                     Dummy
                 </TextBox>
-                <Button Margin="10" Height="30" Width="100" Name="signInButton" Click="ConnectToServer">Sign In</Button>
+                <Button Margin="10" Foreground="White" Background="DarkSlateBlue" Height="30" Width="100" Name="signInButton" Click="ConnectToServer">Sign In</Button>
             </StackPanel>
         </Grid>
-        <StackPanel Name="chatInterface" Visibility="Collapsed">
-            <TextBlock Name="chatNameDisplay"></TextBlock>
-            <ScrollViewer Height="300" VerticalScrollBarVisibility="Visible">
-                <StackPanel Name="chatMessageLog"  Orientation="Vertical" CanVerticallyScroll="True"></StackPanel>
+        <Grid Name="chatInterface" Visibility="Collapsed"  Height="580" Background="DarkSlateGray">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="chatNameDisplay" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"></TextBlock>
+            <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" VerticalScrollBarVisibility="Auto">
+                <StackPanel HorizontalAlignment="Stretch" Name="chatMessageLog"  Orientation="Vertical" CanVerticallyScroll="True"></StackPanel>
             </ScrollViewer>
-            <Image Name="chatDisplayImage" Height="100" Width="100" Stretch="UniformToFill"  HorizontalAlignment="Left" ></Image>
-            <Button Name="chatImageAttachButton" Width="100" HorizontalAlignment="Left" Click="AttachImage">Attach Image</Button>
-            <TextBox Name="chatMessageEntry"></TextBox>
-            <Button Name="chatSendMessage" Click="SendMessage" >Send</Button>
-        </StackPanel>
-         
+            <WrapPanel Grid.Row="4" Grid.ColumnSpan="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="0">
+                <TextBox Name="chatMessageEntry" Background="DarkSlateGray" Foreground="White" Width="630"></TextBox>
+                <Button Name="chatImageAttachButton" Background="DarkBlue" FontSize="30" Foreground="White"  Height="50" Width="50" HorizontalAlignment="Left" Click="AttachImage">📷</Button>
+                <Button Name="chatSendMessage" Background="DarkBlue" FontSize="30" Foreground="White" Height="50" Width="50" Click="SendMessage" >🐌</Button>
+                <Image Name="chatDisplayImage"  Height="50" Width="50" Stretch="UniformToFill"  HorizontalAlignment="Left" ></Image>
+            </WrapPanel>
+        </Grid>
     </StackPanel>
 </Window>

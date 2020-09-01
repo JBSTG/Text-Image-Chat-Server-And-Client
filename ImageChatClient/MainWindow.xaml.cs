@@ -74,13 +74,13 @@ namespace ImageChatClient
                         {
                             System.Windows.Controls.Image img = new System.Windows.Controls.Image();
                             img.Width = 400;
-                            img.HorizontalAlignment = HorizontalAlignment.Left;
+                            img.HorizontalAlignment = HorizontalAlignment.Right;
+
                             ImageSource i = await Task.Run(()=>ConvertFromBitmap(m.imageContent));
                             img.Source = i;
                             chatMessageLog.Children.Add(img);
                         }
-                        chatMessageLog.Children.Add(new MessageFrame(m.sendingUser,m.textContent));
-
+                        chatMessageLog.Children.Add(new MessageFrame(m.sendingUser, m.textContent, true));
                     }
                 }
             }
@@ -116,6 +116,12 @@ namespace ImageChatClient
 
                     if (chatDisplayImage.Source != null)
                     {
+                        System.Windows.Controls.Image img = new System.Windows.Controls.Image();
+                        img.Width = 400;
+                        img.HorizontalAlignment = HorizontalAlignment.Left;
+                        img.Source = chatDisplayImage.Source;
+                        chatMessageLog.Children.Add(img);
+
                         Bitmap bmp = new Bitmap(chatDisplayImage.Source.ToString().Substring(8));
                         m.imageContent = bmp;
                     }
@@ -125,6 +131,7 @@ namespace ImageChatClient
                     IFormatter ifo = new BinaryFormatter();
                     ifo.Serialize(ns, m);
 
+                    chatMessageLog.Children.Add(new MessageFrame(m.sendingUser, m.textContent, false));
                     chatDisplayImage.Source = null;
                     chatMessageEntry.Text = "";
                 }
